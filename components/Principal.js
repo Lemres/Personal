@@ -1,6 +1,9 @@
 import React from "react";
-import { StyleSheet, Text, View } from 'react-native';
-import ListView from 'react-native';
+import { TextInput, StyleSheet, Text, View } from 'react-native';
+
+
+const Ingreso1 = 'null';
+const Ingreso2 = 'null';
 
 
 export default class App extends React.Component {
@@ -21,6 +24,36 @@ export default class App extends React.Component {
         <TouchableHighlight underlayColor='777' onPress={this.handleLapReset.bind(this)} style={styles.button}>
           <Text>Calcular</Text>
         </TouchableHighlight>
+      </View>
+    );
+  }
+
+  _renderInput(){
+    return(
+      <View>
+        <Text>Ingreso Altura</Text>
+        <TextInput
+        secureTextEntry
+        style={{
+          height: 40,
+          borderWidth: 1
+        }}
+
+        onChangeText={(Ingreso1) => this.setState({Ingreso1})} 
+          value={this.state.Ingreso1}
+        />
+
+        <Text>Ingreso Peso</Text>
+        <TextInput
+        secureTextEntry
+        style={{
+          height: 40,
+          borderWidth: 1
+        }}
+
+        onChangeText={(Ingreso2) => this.setState({Ingreso2})} 
+          value={this.state.Ingreso2}
+        />
       </View>
     );
   }
