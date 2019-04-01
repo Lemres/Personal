@@ -4,7 +4,7 @@ import Imc from './components/screens/Imc'
 export default class App extends React.Component {
   render() {
     return (
-        <Imc></Imc>
+      <View></View>
     );
   }
 }
