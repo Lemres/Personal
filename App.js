@@ -1,10 +1,7 @@
 import React, { Component } from "react";
 import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 import PropTypes from "prop-types";
-import onPressPlus from "./components/accion/AccionMas"
-import onPressMinus from "./components/accion/AccionMinus"
-import Botonmenos from "./components/buttons/Botonmenos"
-import Botonmas from "./components/buttons/Botonmas"
+import { black } from "ansi-colors";
 
 export default class Counter extends Component {
   constructor(props) {
@@ -14,30 +11,129 @@ export default class Counter extends Component {
       number: this.props.start
     };
 
-  
-    var presionMas= onPressMinus;
-    var presionMenos= onPressPlus;
-    presionMas = presionMas.bind(this);
-    presionMenos = presionMenos.bind(this);
+    // bind functions..
+    this.onPressMinus = this.onPressMinus.bind(this);
+    this.onPressPlus = this.onPressPlus.bind(this);
   }
 
+  onPressMinus() {
+    const { number } = this.state;
+    const minusNumber = number - 1;
 
-  
-  
+    if (number == this.props.min) {
+      return;
+    }
+
+    return this.setState({ number: minusNumber }, () =>
+      this.props.onChange(minusNumber, "-")
+    );
+  }
+
+  onPressPlus() {
+    const { number } = this.state;
+    const plusNumber = number + 1;
+
+    if (number == this.props.max) {
+      return;
+    }
+
+    return this.setState({ number: plusNumber }, () =>
+      this.props.onChange(plusNumber, "+")
+    );
+  }
+
+  renderMinusButton() {
+    const {
+      min,
+      touchableDisabledColor,
+      touchableColor,
+      minusIcon
+    } = this.props;
+    const isMinusDisabled = min == this.state.number;
+    const buttonStyle = {
+      borderColor: isMinusDisabled ? touchableDisabledColor : touchableColor
+    };
+
+    return (
+      <TouchableOpacity
+        style={[Styles.touchable, buttonStyle]}
+        onPress={this.onPressMinus}
+        activeOpacity={isMinusDisabled ? 0.9 : 0.2}
+      >
+        {this.props.minusIcon ? (
+          this.props.minusIcon(
+            isMinusDisabled,
+            touchableDisabledColor,
+            touchableColor
+          )
+        ) : (
+          <Text
+            style={[
+              Styles.iconText,
+              {
+                color: isMinusDisabled ? touchableDisabledColor : touchableColor
+              }
+            ]}
+          >
+            -
+          </Text>
+        )}
+      </TouchableOpacity>
+    );
+  }
+
+  renderPlusButton() {
+    const {
+      max,
+      touchableDisabledColor,
+      touchableColor,
+      plusIcon
+    } = this.props;
+    const isPlusDisabled = max == this.state.number;
+    const buttonStyle = {
+      borderColor: isPlusDisabled ? touchableDisabledColor : touchableColor
+    };
+
+    return (
+      <TouchableOpacity
+        style={[Styles.touchable, buttonStyle]}
+        onPress={this.onPressPlus}
+        activeOpacity={isPlusDisabled ? 0.9 : 0.2}
+      >
+        {this.props.plusIcon ? (
+          this.props.plusIcon(
+            isPlusDisabled,
+            touchableDisabledColor,
+            touchableColor
+          )
+        ) : (
+          <Text
+            style={[
+              Styles.iconText,
+              {
+                color: isPlusDisabled ? touchableDisabledColor : touchableColor
+              }
+            ]}
+          >
+            +
+          </Text>
+        )}
+      </TouchableOpacity>
+    );
+  }
+
   render() {
     const { number } = this.state;
-    const { mas } = Botonmas;
-    const { menos } = Botonmenos;
 
     return (
       <View style={Styles.container}>
-        <View>{mas}</View>
+        <View>{this.renderMinusButton()}</View>
         <View style={Styles.number}>
           <Text style={[Styles.text, { color: this.props.textColor }]}>
             {number}
           </Text>
-        <View>{menos}</View>
-        </View>  
+        </View>
+        <View>{this.renderPlusButton()}</View>
       </View>
     );
   }
@@ -45,7 +141,11 @@ export default class Counter extends Component {
 
 const Styles = StyleSheet.create({
   container: {
-    marginTop: 50,
+    marginTop: 200,
+    marginLeft: 50,
+    width: 150,
+    height: 100,
+    backgroundColor: 'black',
     flexDirection: "row"
   },
 
@@ -93,9 +193,8 @@ Counter.propTypes = {
 Counter.defaultProps = {
   start: 0,
   min: 0,
-  max: 10,
+  max: 100,
   onChange(number, type) {
-    // Number, - or +
   },
 
   textColor: "#196583",
@@ -105,7 +204,3 @@ Counter.defaultProps = {
   minusIcon: null,
   plusIcon: null
 };
-
-
-
-

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 
 
 export default class onPressMinus extends Component {
-    onPressMinus() {
+    render() {
         const { number } = this.state;
         const minusNumber = number - 1;
     

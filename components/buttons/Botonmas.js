@@ -4,7 +4,7 @@ import { Text, View, TouchableOpacity, StyleSheet } from "react-native";
 
 export default class Botonmas extends Component {
 
-renderMinusButton() {
+render() {
     const {
       min,
       touchableDisabledColor,

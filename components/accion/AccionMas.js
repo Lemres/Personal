@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 export default class onPressPlus extends Component {
-    onPressPlus() {
+    render() {
         const { number } = this.state;
         const plusNumber = number + 1;
     
